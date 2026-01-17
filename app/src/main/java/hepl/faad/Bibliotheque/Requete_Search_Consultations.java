@@ -1,6 +1,6 @@
 package hepl.faad.Bibliotheque;
 
-import com.example.mobileclientconsultation.entity.Patient;
+import hepl.faad.model.entity.Patient;
 
 import java.sql.Array;
 import java.sql.Date;

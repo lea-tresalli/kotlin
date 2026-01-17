@@ -24,9 +24,15 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activity.HomeActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat" />
+        <activity
             android:name=".activity.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat" />
     </application>
+
+
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

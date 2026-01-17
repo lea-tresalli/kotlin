@@ -1,6 +1,6 @@
 package hepl.faad.Bibliotheque;
 
-import com.example.mobileclientconsultation.entity.Patient;
+
 
 public class Reponse_Add_Patient implements Reponse {
     Integer id;

@@ -8,9 +8,9 @@ import android.widget.ArrayAdapter
 import android.widget.PopupMenu
 import android.widget.TextView
 import com.example.mobileclientconsultation.R
-import com.example.mobileclientconsultation.entity.Consultation
+import com.example.mobileclientconsultation.entity.kConsultation
 
-class ListeConsultationAdapter (context: Context, private val dataList: List<Consultation>) : ArrayAdapter<Consultation>(context, 0, dataList){
+class ListeConsultationAdapter (context: Context, private val dataList: List<kConsultation>) : ArrayAdapter<kConsultation>(context, 0, dataList){
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = convertView ?: LayoutInflater.from(context)
             .inflate(R.layout.consultation , parent, false)
@@ -30,8 +30,8 @@ class ListeConsultationAdapter (context: Context, private val dataList: List<Con
         idDoc.text =(itemText?.idDoctor).toString()
         date.text = (itemText?.date).toString()
         time.text = (itemText?.hour).toString()
-        namePatient.text = itemText?.Patient?.lastName
-        firstNamePatient.text = itemText?.Patient?.firstName
+        namePatient.text = itemText?.patient?.lastName
+        firstNamePatient.text = itemText?.patient?.firstName
         reason.text = itemText?.reason
 
         return view

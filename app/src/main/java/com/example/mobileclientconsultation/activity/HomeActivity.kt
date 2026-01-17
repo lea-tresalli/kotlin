@@ -1,20 +1,18 @@
 package com.example.mobileclientconsultation.activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ComponentActivity
 import com.example.mobileclientconsultation.R
 import com.example.mobileclientconsultation.adapters.ListeConsultationAdapter
-import com.example.mobileclientconsultation.entity.Patient
+import com.example.mobileclientconsultation.entity.kPatient
+import com.example.mobileclientconsultation.mapper.toJava
+import com.example.mobileclientconsultation.mapper.toKotlin
 import com.example.mobileclientconsultation.network.networkConnection.contacteServeur
-import hepl.faad.Bibliotheque.Reponse_Login
 import hepl.faad.Bibliotheque.Reponse_Search_Consultations
-import hepl.faad.Bibliotheque.Requete_Login
 import hepl.faad.Bibliotheque.Requete_Search_Consultations
-import hepl.faad.Bibliotheque.Requete_Update_Consultation
+import hepl.faad.model.entity.Patient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,7 +24,7 @@ class HomeActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home)
         val idDoc = intent.getIntExtra("docId", -1)
-        val patient = Patient()
+        val patient = ArrayList<Patient>()
         val req = Requete_Search_Consultations(patient, null, null, idDoc)
         CoroutineScope(Dispatchers.IO).launch {
 
@@ -35,7 +33,8 @@ class HomeActivity : AppCompatActivity(){
             withContext(Dispatchers.Main) {
                 (listeConsult as? Reponse_Search_Consultations)
                     ?.consultation?.let { consultations ->
-                        val adapter = ListeConsultationAdapter(this@HomeActivity, consultations)
+                        val consultListe = consultations.map{it.toKotlin()}
+                        val adapter = ListeConsultationAdapter(this@HomeActivity, consultListe)
                         val listeView = findViewById<ListView>(R.id.listeView)
                         listeView.adapter = adapter
 

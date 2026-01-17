@@ -27,6 +27,7 @@ class LoginActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
         val loginText = findViewById<EditText>(R.id.logintext)
+
         val passwordText = findViewById<EditText>(R.id.passwordtext)
 
         val buttonLogin = findViewById<Button>(R.id.buttonLogin)
@@ -44,9 +45,11 @@ class LoginActivity : AppCompatActivity(){
                 CoroutineScope(Dispatchers.IO).launch{
                             val reponse_Login = contacteServeur(req)
                     withContext(Dispatchers.Main){
+
                         (reponse_Login as? Reponse_Login)
-                            ?.idDoctor?.let {docId ->
+                            ?.getIdDoctor()?.let {docId ->
                                 val intentId = Intent(this@LoginActivity, HomeActivity::class.java)
+                                System.out.println(docId);
                                 intentId.putExtra("docId", docId)
                                 startActivity(intentId)
 

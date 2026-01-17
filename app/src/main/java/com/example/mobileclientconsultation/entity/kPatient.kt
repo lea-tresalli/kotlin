@@ -3,7 +3,7 @@ package com.example.mobileclientconsultation.entity
 import java.time.LocalDate
 
 
-data class Patient (
+data class kPatient (
     var id: Int? = null,
     var firstName: String?=null,
     var lastName: String?=null,

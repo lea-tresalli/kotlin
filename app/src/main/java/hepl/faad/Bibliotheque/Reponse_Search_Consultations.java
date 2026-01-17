@@ -1,6 +1,6 @@
 package hepl.faad.Bibliotheque;
 
-import com.example.mobileclientconsultation.entity.Consultation;
+import hepl.faad.model.entity.Consultation;
 
 import java.util.ArrayList;
 
