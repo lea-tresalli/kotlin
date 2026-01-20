@@ -17,4 +17,8 @@
     <string name="AddPatient">Ajouter patient</string>
     <string name="AddConsult">Ajouter consultation</string>
     <string name="Delete">Supprimer</string>
+    <string name="NameAndFirst">Nom Prenom</string>
+    <string name="dateDebut">Date début</string>
+    <string name="dateFin">Date de fin</string>
+    <string name="btnRechercher">Rechercher</string>
 </resources>

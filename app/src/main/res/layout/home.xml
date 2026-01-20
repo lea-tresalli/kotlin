@@ -5,45 +5,39 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
         android:id="@+id/toolbar"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentFilter"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+        android:name="com.example.mobileclientconsultation.fragment.Filter"
+        />
 
-    <ListView
-        android:id="@+id/listeView"
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentList"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:name="com.example.mobileclientconsultation.fragment.listeConsultation">
+<!--    <ListView-->
+<!--        android:id="@+id/listeView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp" />-->
+    </androidx.fragment.app.FragmentContainerView>
 
 
-
-    <LinearLayout
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/buttonChange"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/buttonLogout"
-            android:layout_width="match_parent"
-            android:layout_height="33dp"
-            android:text="@string/logout" />
-
-        <Button
-            android:id="@+id/buttonAddPatient"
-            android:layout_width="match_parent"
-            android:layout_height="33dp"
-            android:text="@string/AddPatient" />
-
-        <Button
-            android:id="@+id/ButtonAddConsultation"
-            android:layout_width="match_parent"
-            android:layout_height="33dp"
-            android:text="@string/AddConsult" />
-
-
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:name="com.example.mobileclientconsultation.fragment.ButtonChange" />
 
 
 

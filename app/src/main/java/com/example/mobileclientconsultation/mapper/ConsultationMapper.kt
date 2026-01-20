@@ -19,8 +19,8 @@ fun kConsultation.toJava() : Consultation{
 fun Consultation.toKotlin() : kConsultation{
 
     return kConsultation(
-        id = this.id ?: -1,
-        idDoctor = this.doctor ?: -1,
+        id = this.id,
+        idDoctor = this.doctor ,
         patient = this.patient?.toKotlin(),
         reason = this.reason,
         hour = this.hour,
