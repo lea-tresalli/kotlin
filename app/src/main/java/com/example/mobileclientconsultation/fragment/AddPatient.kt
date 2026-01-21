@@ -45,7 +45,7 @@ class AddPatient : Fragment(R.layout.addpatient) {
                 findNavController().navigate(R.id.action_addPatient_to_mainFragment)
             }
             else{
-                Toast.makeText(context, "les champs sont vides", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.mesMissing), Toast.LENGTH_SHORT).show()
             }
         }
 

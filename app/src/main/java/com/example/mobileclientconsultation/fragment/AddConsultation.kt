@@ -44,7 +44,7 @@ class AddConsultation : Fragment(R.layout.addconsultation) {
                 val duration = binding.duree.text.toString()
 
                 if(date.isEmpty() || time.isEmpty() || nbrCons.isEmpty()|| duration.isEmpty()){
-                    Toast.makeText(context, "champ manquant", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.mesMissing), Toast.LENGTH_SHORT).show()
                 }
                 else {
 
@@ -72,7 +72,7 @@ class AddConsultation : Fragment(R.layout.addconsultation) {
 
             }
             catch (e: Exception){
-                Toast.makeText(context, "Format de date ou heure invalide", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.dateFormat), Toast.LENGTH_SHORT).show()
             }
 
         }

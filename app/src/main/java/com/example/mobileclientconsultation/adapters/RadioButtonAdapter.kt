@@ -8,8 +8,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.example.mobileclientconsultation.R
-import com.example.mobileclientconsultation.entity.kConsultation
-import com.example.mobileclientconsultation.entity.kPatient
+
 
 
 class RadioButtonAdapter(context: Context, private val dataList: MutableList<String>) : ArrayAdapter<String>(context, 0, dataList){

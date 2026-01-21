@@ -2,9 +2,11 @@ package com.example.mobileclientconsultation.ViewModel
 
 
 
+import android.provider.Settings.Global.getString
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.mobileclientconsultation.R
 
 import com.example.mobileclientconsultation.entity.kConsultation
 import com.example.mobileclientconsultation.entity.kPatient
@@ -67,7 +69,7 @@ class ViewModelHome : ViewModel(){
         (consult as? Reponse_Add_Consultation)
             ?.done?.let { done ->
                 if(done){
-                    messageToastPrivate.value = "consultation supprimée"
+                    messageToastPrivate.value = "consultation ajoutée"
 
                 }
                 else{
@@ -115,7 +117,7 @@ class ViewModelHome : ViewModel(){
         (listeConsult as? Reponse_Delete_Consultation)
             ?.done?.let { done ->
                 if(done){
-                    messageToastPrivate.value = "consultation supprimée"
+                    messageToastPrivate.value = "success"
                 }
                 else{
                     messageToastPrivate.value = "erreur de suppression"

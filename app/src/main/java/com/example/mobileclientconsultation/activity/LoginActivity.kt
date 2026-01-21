@@ -6,10 +6,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ComponentActivity
+import androidx.appcompat.app.AppCompatDelegate
+
+import androidx.core.os.LocaleListCompat
 
 import com.example.mobileclientconsultation.R
-import com.example.mobileclientconsultation.network.networkConnection
+
 import com.example.mobileclientconsultation.network.networkConnection.contacteServeur
 import hepl.faad.Bibliotheque.Reponse_Login
 
@@ -32,12 +34,16 @@ class LoginActivity : AppCompatActivity(){
 
         val buttonLogin = findViewById<Button>(R.id.buttonLogin)
 
+        val buttonLangFr = findViewById<Button>(R.id.buttonLanguageFr)
+        val buttonLangEn = findViewById<Button>(R.id.buttonLanguageEn)
+
+
         buttonLogin.setOnClickListener {
             val login = loginText.text.toString()
             val password = passwordText.text.toString()
 
             if(login.isEmpty() || password.isEmpty()){
-                Toast.makeText(this, "Vous n'avez pas remplie les champ", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.mesMissing, Toast.LENGTH_SHORT).show()
 
             }
             else{
@@ -49,13 +55,13 @@ class LoginActivity : AppCompatActivity(){
                         (reponse_Login as? Reponse_Login)
                             ?.getIdDoctor()?.let {docId ->
                                 val intentId = Intent(this@LoginActivity, HomeActivity::class.java)
-                                System.out.println(docId);
+
                                 intentId.putExtra("docId", docId)
                                 startActivity(intentId)
 
                                 finish()
                             } ?:run{
-                                Toast.makeText(this@LoginActivity, "coordonnées invalide", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@LoginActivity, getString(R.string.mesCoord), Toast.LENGTH_SHORT).show()
                             }
 
 
@@ -66,6 +72,17 @@ class LoginActivity : AppCompatActivity(){
 
             }
         }
+        buttonLangFr.setOnClickListener() {
+            val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags("fr")
+            AppCompatDelegate.setApplicationLocales(appLocale)
+        }
+
+        buttonLangEn.setOnClickListener {
+            val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags("en")
+            AppCompatDelegate.setApplicationLocales(appLocale)
+        }
+
+
 
 
 

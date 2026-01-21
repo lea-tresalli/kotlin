@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 
-import android.widget.Toast
+
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -17,17 +17,15 @@ import com.example.mobileclientconsultation.ViewModel.ViewModelHome
 import com.example.mobileclientconsultation.databinding.FiltreBinding
 import com.example.mobileclientconsultation.entity.kPatient
 import com.example.mobileclientconsultation.mapper.toJava
-import com.example.mobileclientconsultation.mapper.toKotlin
-import com.example.mobileclientconsultation.network.networkConnection.contacteServeur
+
 import com.google.android.material.datepicker.MaterialDatePicker
-import hepl.faad.Bibliotheque.Reponse_All_Patient
 
 import hepl.faad.Bibliotheque.Requete_All_Patient
 import hepl.faad.Bibliotheque.Requete_Search_Consultations
 import hepl.faad.model.entity.Patient
-import kotlinx.coroutines.Dispatchers
+
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -67,7 +65,7 @@ class Filter : Fragment() {
 
         viewModel.patientPublic.observe(viewLifecycleOwner){ newList ->
             tmpPatient = newList
-            val patientNull : kPatient = kPatient(-1, "tous les patients", "", null)
+            val patientNull : kPatient = kPatient(-1, getString(R.string.allPatient), "", null)
             tmpPatient = listOf(patientNull) + tmpPatient
             val listString = tmpPatient.map{patients -> "${patients.lastName} ${patients.firstName} (${patients.id})"}
             adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, listString)
@@ -91,7 +89,7 @@ class Filter : Fragment() {
 
         binding.datePickerActions.setOnClickListener {
             val datePicker = MaterialDatePicker.Builder.dateRangePicker()
-                .setTitleText("période de consultation").build()
+                .setTitleText(getString(R.string.dateFormat)).build()
             datePicker.show(parentFragmentManager, "RangePicker")
             datePicker.addOnPositiveButtonClickListener {
                 selectionPair ->

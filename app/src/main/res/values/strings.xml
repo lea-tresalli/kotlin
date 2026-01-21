@@ -22,4 +22,15 @@
     <string name="dateFin">Date de fin</string>
     <string name="btnRechercher">Rechercher</string>
     <string name="nbrConsult">Nombre de consultations</string>
+
+    <string name="mesMissing">champ manquant</string>
+    <string name="dateFormat">Format de date ou heure invalide</string>
+    <string name="success">operation a réussie</string>
+    <string name="error">operation a échoué</string>
+    <string name="allPatient">tous les patients</string>
+    <string name="fr">fr</string>
+    <string name="en">en</string>
+
+    <string name="mesCoord">coordonnées invalide</string>
+
 </resources>

@@ -12,11 +12,11 @@ import androidx.navigation.fragment.findNavController
 import com.example.mobileclientconsultation.R
 import com.example.mobileclientconsultation.ViewModel.ViewModelHome
 import com.example.mobileclientconsultation.databinding.UpdateconsultationdateBinding
-import com.example.mobileclientconsultation.databinding.UpdateconsultationpatientBinding
+
 import com.example.mobileclientconsultation.entity.kConsultation
-import com.example.mobileclientconsultation.entity.kPatient
+
 import com.example.mobileclientconsultation.mapper.toJava
-import hepl.faad.Bibliotheque.Requete_Add_Consultation
+
 import hepl.faad.Bibliotheque.Requete_Update_Consultation
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -61,7 +61,7 @@ class UpdateConsultationDate : Fragment(R.layout.updateconsultationdate) {
                     val time = binding.timeedit.text.toString()
 
                     if (date.isEmpty() || time.isEmpty()) {
-                        Toast.makeText(context, "champ manquant", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, getString(R.string.mesMissing), Toast.LENGTH_SHORT).show()
                     } else {
                         val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                         val dateReq = LocalDate.parse(date, dateFormatter)
@@ -85,7 +85,7 @@ class UpdateConsultationDate : Fragment(R.layout.updateconsultationdate) {
                     }
                 }
                 catch (e: Exception){
-                    Toast.makeText(context, "Format de date ou heure invalide", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.dateFormat), Toast.LENGTH_SHORT).show()
                 }
 
             }

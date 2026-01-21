@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.mobileclientconsultation.R
 import com.example.mobileclientconsultation.ViewModel.ViewModelHome
-import com.example.mobileclientconsultation.activity.HomeActivity
+
 import com.example.mobileclientconsultation.activity.LoginActivity
 import hepl.faad.Bibliotheque.Requete_Logout
 import kotlinx.coroutines.launch

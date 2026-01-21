@@ -2,6 +2,7 @@ package com.example.mobileclientconsultation.network;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -26,10 +27,21 @@ public class networkConnection {
         objectOutputStream.writeObject(envoie);
         Reponse r;
         try {
-            r = (Reponse) objectInputStream.readObject();
-            return r;
+            try {
+                r = (Reponse) objectInputStream.readObject();
+                return r;
+            }
+            catch (EOFException e){
+                return null;
+            }
+
         } catch (ClassNotFoundException | IOException e) {
             throw new RuntimeException(e);
+        }
+        finally {
+
+            s.close();
+
         }
     }
 
