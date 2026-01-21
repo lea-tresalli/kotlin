@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="8dp"
-        android:background="#F0F0F0" >
+        android:background="#F0F0F0">
 
         <Button
 
@@ -30,7 +30,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/Delete" />
+            android:text="@string/AddConsult" />
 
     </LinearLayout>
 

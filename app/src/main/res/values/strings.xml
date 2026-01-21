@@ -13,9 +13,9 @@
     <string name="reason">Raison</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="logout">se deconnecter</string>
+    <string name="logout">deconnecter</string>
     <string name="AddPatient">Ajouter patient</string>
-    <string name="AddConsult">Ajouter consultation</string>
+    <string name="AddConsult">Ajouter consult</string>
     <string name="Delete">Supprimer</string>
     <string name="NameAndFirst">Nom Prenom</string>
     <string name="dateDebut">Date début</string>

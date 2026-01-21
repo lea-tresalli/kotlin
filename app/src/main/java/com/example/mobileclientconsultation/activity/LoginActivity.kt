@@ -12,14 +12,14 @@ import com.example.mobileclientconsultation.R
 import com.example.mobileclientconsultation.network.networkConnection
 import com.example.mobileclientconsultation.network.networkConnection.contacteServeur
 import hepl.faad.Bibliotheque.Reponse_Login
-import hepl.faad.Bibliotheque.Requete
+
 import hepl.faad.Bibliotheque.Requete_Login
-import kotlinx.coroutines.CoroutineName
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+
 import kotlinx.coroutines.withContext
 
 class LoginActivity : AppCompatActivity(){

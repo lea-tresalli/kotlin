@@ -5,32 +5,32 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.mobileclientconsultation.R
+import com.example.mobileclientconsultation.ViewModel.ViewModelHome
 import com.example.mobileclientconsultation.adapters.ListeConsultationAdapter
-import com.example.mobileclientconsultation.mapper.toKotlin
-import com.example.mobileclientconsultation.network.networkConnection.contacteServeur
-import hepl.faad.Bibliotheque.Reponse_Search_Consultations
+import com.example.mobileclientconsultation.databinding.ListeconsultationBinding
 import hepl.faad.Bibliotheque.Requete_Search_Consultations
 import hepl.faad.model.entity.Patient
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+
 
 class listeConsultation : Fragment() {
-
+    private val viewModel: ViewModelHome by activityViewModels ()
     private lateinit var listeView: ListView
+    private lateinit var adapter: ListeConsultationAdapter
 
     private var idDoc: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
-        arguments?.let{
-            idDoc = it.getInt("docId", -1)
-        }
+
+
     }
 
     override fun onCreateView(
@@ -41,30 +41,27 @@ class listeConsultation : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
+
+
         super.onViewCreated(view, savedInstanceState)
-        listeView = view.findViewById(R.id.recyclerVieConsult)
-        val patient = ArrayList<Patient>()
-        val req = Requete_Search_Consultations(patient, null, null, idDoc)
-        viewLifecycleOwner.lifecycleScope.launch {
+        val binding = ListeconsultationBinding.bind(view)
+        adapter = ListeConsultationAdapter(requireContext(), mutableListOf())
+        binding.recyclerVieConsult.adapter = adapter
+        viewModel.doctorIdPublic.observe(viewLifecycleOwner) { id ->
+            idDoc = id
 
 
-            val listeConsult = withContext(Dispatchers.IO){contacteServeur(req)}
 
-                (listeConsult as? Reponse_Search_Consultations)
-                    ?.consultation?.let { consultations ->
-                        val consultListe = consultations.map { it.toKotlin() }
-                        val adapter = ListeConsultationAdapter(requireContext(), consultListe)
-                        listeView.adapter = adapter
+            val patient = ArrayList<Patient>()
+            val req = Requete_Search_Consultations(patient, null, null, idDoc)
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.getConsultations(req)
 
-                    } ?: run {
-                    Toast.makeText(
-                        requireContext(),
-                        "pas de consultation trouvée",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-                }
 
+            }
+        }
+        viewModel.consultationPublic.observe(viewLifecycleOwner){
+            newList -> adapter.update(newList)
         }
     }
 

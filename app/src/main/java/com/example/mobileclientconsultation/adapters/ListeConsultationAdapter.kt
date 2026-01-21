@@ -11,7 +11,7 @@ import androidx.compose.foundation.lazy.layout.LazyLayoutIntervalContent
 import com.example.mobileclientconsultation.databinding.ConsultationBinding
 import com.example.mobileclientconsultation.entity.kConsultation
 
-class ListeConsultationAdapter (context: Context, private val dataList: List<kConsultation>) : ArrayAdapter<kConsultation>(context, 0, dataList){
+class ListeConsultationAdapter (context: Context, private val dataList: MutableList<kConsultation>) : ArrayAdapter<kConsultation>(context, 0, dataList){
     private lateinit var binding : ConsultationBinding;
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view : View
@@ -60,5 +60,11 @@ class ListeConsultationAdapter (context: Context, private val dataList: List<kCo
         }
 
         return view
+    }
+
+    fun update(newList: List<kConsultation>){
+        dataList.clear()
+        dataList.addAll(newList)
+        notifyDataSetChanged()
     }
 }

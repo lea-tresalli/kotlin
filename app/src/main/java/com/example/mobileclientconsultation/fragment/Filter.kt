@@ -9,8 +9,10 @@ import android.widget.ArrayAdapter
 import android.widget.SpinnerAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.mobileclientconsultation.R
+import com.example.mobileclientconsultation.ViewModel.ViewModelHome
 import com.example.mobileclientconsultation.adapters.ListeConsultationAdapter
 import com.example.mobileclientconsultation.databinding.FiltreBinding
 import com.example.mobileclientconsultation.entity.kPatient
@@ -22,6 +24,7 @@ import hepl.faad.Bibliotheque.Reponse_All_Patient
 import hepl.faad.Bibliotheque.Reponse_Search_Consultations
 import hepl.faad.Bibliotheque.Requete_All_Patient
 import hepl.faad.Bibliotheque.Requete_Search_Consultations
+import hepl.faad.model.entity.Patient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -29,19 +32,18 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.ArrayList
+import kotlin.getValue
 
 class Filter : Fragment() {
+    private val viewModel: ViewModelHome by activityViewModels ()
 
-    lateinit var startDate : LocalDate
-    lateinit var endDate : LocalDate
+     var startDate : LocalDate? = null
+    var endDate : LocalDate? = null
     var patientSelected : kPatient? = null
     private var idDoc: Int = -1
     private lateinit var binding: FiltreBinding
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
-        arguments?.let{
-            idDoc = it.getInt("docId", -1)
-        }
 
     }
 
@@ -56,6 +58,9 @@ class Filter : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FiltreBinding.bind(view)
 
+        viewModel.doctorIdPublic.observe(viewLifecycleOwner){id ->
+            idDoc = id
+        }
         var tmpPatient : List<kPatient> = ArrayList<kPatient>()
         val req = Requete_All_Patient()
         var adapter : ArrayAdapter<String>
@@ -66,7 +71,11 @@ class Filter : Fragment() {
                 ?.listePatient?.let { patients ->
                     tmpPatient = patients.map { it.toKotlin()
                     }
+                    val patientNull : kPatient = kPatient(-1, "tous les patients", "", null)
+
+                    tmpPatient = listOf(patientNull) + tmpPatient
                     val listString = tmpPatient.map{patients -> "${patients.lastName} ${patients.firstName} (${patients.id})"}
+
 
                     adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, listString)
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -110,8 +119,20 @@ class Filter : Fragment() {
         }
 
         binding.btnRechercher.setOnClickListener {
-            val req = Requete_Search_Consultations(patientSelected?.toJava(), startDate, endDate, idDoc)
-            req
+            val listePatient : ArrayList<Patient> = ArrayList<Patient>()
+
+            if(patientSelected != null && patientSelected!!.id != -1){
+                listePatient.add(patientSelected!!.toJava())
+            }
+
+
+            val req = Requete_Search_Consultations(listePatient, startDate, endDate, idDoc)
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.getConsultations(req)
+            }
+            binding.datePickerActions.setText("")
+            startDate = null
+            endDate = null
         }
 
 

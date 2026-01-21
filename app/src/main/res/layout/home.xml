@@ -37,6 +37,7 @@
         android:id="@+id/buttonChange"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="30dp"
         android:name="com.example.mobileclientconsultation.fragment.ButtonChange" />
 
 
