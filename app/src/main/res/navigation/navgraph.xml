@@ -6,5 +6,17 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.mobileclientconsultation.fragment.MainFragment"
-        android:label="MainFragment" />
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_addPatient"
+            app:destination="@id/addPatient" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPatient"
+        android:name="com.example.mobileclientconsultation.fragment.AddPatient"
+        android:label="AddPatient" >
+        <action
+            android:id="@+id/action_addPatient_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 </navigation>

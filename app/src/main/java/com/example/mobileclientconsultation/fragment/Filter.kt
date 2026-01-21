@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.SpinnerAdapter
+
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.mobileclientconsultation.R
 import com.example.mobileclientconsultation.ViewModel.ViewModelHome
-import com.example.mobileclientconsultation.adapters.ListeConsultationAdapter
+
 import com.example.mobileclientconsultation.databinding.FiltreBinding
 import com.example.mobileclientconsultation.entity.kPatient
 import com.example.mobileclientconsultation.mapper.toJava
@@ -21,7 +21,7 @@ import com.example.mobileclientconsultation.mapper.toKotlin
 import com.example.mobileclientconsultation.network.networkConnection.contacteServeur
 import com.google.android.material.datepicker.MaterialDatePicker
 import hepl.faad.Bibliotheque.Reponse_All_Patient
-import hepl.faad.Bibliotheque.Reponse_Search_Consultations
+
 import hepl.faad.Bibliotheque.Requete_All_Patient
 import hepl.faad.Bibliotheque.Requete_Search_Consultations
 import hepl.faad.model.entity.Patient
@@ -64,32 +64,19 @@ class Filter : Fragment() {
         var tmpPatient : List<kPatient> = ArrayList<kPatient>()
         val req = Requete_All_Patient()
         var adapter : ArrayAdapter<String>
+
+        viewModel.patientPublic.observe(viewLifecycleOwner){ newList ->
+            tmpPatient = newList
+            val patientNull : kPatient = kPatient(-1, "tous les patients", "", null)
+            tmpPatient = listOf(patientNull) + tmpPatient
+            val listString = tmpPatient.map{patients -> "${patients.lastName} ${patients.firstName} (${patients.id})"}
+            adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, listString)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.listPatient.adapter = adapter
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
-            val listPatient = withContext(Dispatchers.IO){contacteServeur(req)}
-
-            (listPatient as? Reponse_All_Patient)
-                ?.listePatient?.let { patients ->
-                    tmpPatient = patients.map { it.toKotlin()
-                    }
-                    val patientNull : kPatient = kPatient(-1, "tous les patients", "", null)
-
-                    tmpPatient = listOf(patientNull) + tmpPatient
-                    val listString = tmpPatient.map{patients -> "${patients.lastName} ${patients.firstName} (${patients.id})"}
-
-
-                    adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, listString)
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    binding.listPatient.adapter = adapter
-
-                } ?: run {
-                Toast.makeText(
-                    requireContext(),
-                    "pas de consultation trouvée",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
-
+            viewModel.getPatient(req)
         }
         binding.listPatient.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {

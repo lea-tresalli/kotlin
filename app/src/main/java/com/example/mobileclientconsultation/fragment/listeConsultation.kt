@@ -5,15 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
+
 import android.widget.ListView
 import android.widget.Toast
+
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.mobileclientconsultation.R
 import com.example.mobileclientconsultation.ViewModel.ViewModelHome
 import com.example.mobileclientconsultation.adapters.ListeConsultationAdapter
 import com.example.mobileclientconsultation.databinding.ListeconsultationBinding
+import hepl.faad.Bibliotheque.Requete_Delete_Consultation
 import hepl.faad.Bibliotheque.Requete_Search_Consultations
 import hepl.faad.model.entity.Patient
 
@@ -45,13 +47,30 @@ class listeConsultation : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
         val binding = ListeconsultationBinding.bind(view)
-        adapter = ListeConsultationAdapter(requireContext(), mutableListOf())
+        adapter = ListeConsultationAdapter(requireContext(), mutableListOf(),
+            onDelete = {
+                consultation ->
+                val req =
+                    Requete_Delete_Consultation(consultation!!.id)
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.DeleteConsultation(req)
+                    viewModel.getConsultations(Requete_Search_Consultations(ArrayList<Patient>(), null, null, idDoc))
+                }
+            },
+            onUpdate = {
+                    consultation ->
+                val req =
+                    Requete_Delete_Consultation(consultation!!.id)
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.DeleteConsultation(req)
+                }
+
+            })
         binding.recyclerVieConsult.adapter = adapter
+
+
         viewModel.doctorIdPublic.observe(viewLifecycleOwner) { id ->
             idDoc = id
-
-
-
             val patient = ArrayList<Patient>()
             val req = Requete_Search_Consultations(patient, null, null, idDoc)
             viewLifecycleOwner.lifecycleScope.launch {
@@ -60,10 +79,23 @@ class listeConsultation : Fragment() {
 
             }
         }
+
+
+
         viewModel.consultationPublic.observe(viewLifecycleOwner){
             newList -> adapter.update(newList)
         }
+
+        viewModel.messageToastPublic.observe(viewLifecycleOwner){
+            message ->
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        }
+
+
+
     }
+
+
 
 
 
