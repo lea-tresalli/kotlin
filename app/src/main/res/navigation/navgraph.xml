@@ -13,6 +13,12 @@
         <action
             android:id="@+id/action_mainFragment_to_addConsultation"
             app:destination="@id/addConsultation" />
+        <action
+            android:id="@+id/action_mainFragment_to_updateConsultationPatient"
+            app:destination="@id/updateConsultationPatient" />
+        <action
+            android:id="@+id/action_mainFragment_to_updateConsultationDate"
+            app:destination="@id/updateConsultationDate" />
     </fragment>
     <fragment
         android:id="@+id/addPatient"
@@ -28,6 +34,22 @@
         android:label="AddConsultation" >
         <action
             android:id="@+id/action_addConsultation_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateConsultationPatient"
+        android:name="com.example.mobileclientconsultation.fragment.UpdateConsultationPatient"
+        android:label="UpdateConsultationPatient" >
+        <action
+            android:id="@+id/action_updateConsultationPatient_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateConsultationDate"
+        android:name="com.example.mobileclientconsultation.fragment.UpdateConsultationDate"
+        android:label="UpdateConsultationDate" >
+        <action
+            android:id="@+id/action_updateConsultationDate_to_mainFragment"
             app:destination="@id/mainFragment" />
     </fragment>
 </navigation>

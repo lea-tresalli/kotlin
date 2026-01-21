@@ -15,12 +15,14 @@ import hepl.faad.Bibliotheque.Reponse_Add_Patient
 import hepl.faad.Bibliotheque.Reponse_All_Patient
 import hepl.faad.Bibliotheque.Reponse_Delete_Consultation
 import hepl.faad.Bibliotheque.Reponse_Search_Consultations
+import hepl.faad.Bibliotheque.Reponse_Update_Consultation
 import hepl.faad.Bibliotheque.Requete_Add_Consultation
 import hepl.faad.Bibliotheque.Requete_Add_Patient
 import hepl.faad.Bibliotheque.Requete_All_Patient
 import hepl.faad.Bibliotheque.Requete_Delete_Consultation
 import hepl.faad.Bibliotheque.Requete_Logout
 import hepl.faad.Bibliotheque.Requete_Search_Consultations
+import hepl.faad.Bibliotheque.Requete_Update_Consultation
 import kotlinx.coroutines.Dispatchers
 
 import kotlinx.coroutines.withContext
@@ -38,25 +40,17 @@ class ViewModelHome : ViewModel(){
     private val doctorIdPrivate = MutableLiveData<Int>()
     val doctorIdPublic: LiveData<Int> = doctorIdPrivate
 
+    private val currentConsultPrivate = MutableLiveData<kConsultation>()
+    val currentConsultPublic : LiveData<kConsultation> get() = currentConsultPrivate
+
     fun setDoctorId(id: Int) {
         doctorIdPrivate.value = id
     }
 
+    fun setCurrentConsult(consult : kConsultation){
+        currentConsultPrivate.value = consult
+    }
 
-
-
-    /*suspend fun getConsultation(req : Requete_Search_Consultations) {
-        var consultList : List<kConsultation> = emptyList()
-
-        val listConsult = contacteServeur(req)
-        withContext(Dispatchers.Main) {
-            (listConsult as? Reponse_Search_Consultations)
-                ?.consultation?.let { consultations ->
-                    consultationsPrivate.value = consultations.map{it.toKotlin()}
-                } ?: run {
-                consultationPrivate = emptyList()
-            }
-        }*/
 
     suspend fun getPatient(req : Requete_All_Patient){
         val listPatient = withContext(Dispatchers.IO){contacteServeur(req)}
@@ -71,6 +65,21 @@ class ViewModelHome : ViewModel(){
         val consult = withContext(Dispatchers.IO){contacteServeur(req)}
 
         (consult as? Reponse_Add_Consultation)
+            ?.done?.let { done ->
+                if(done){
+                    messageToastPrivate.value = "consultation supprimée"
+
+                }
+                else{
+                    messageToastPrivate.value = "erreur de suppression"
+                }
+            }
+    }
+
+    suspend fun updateConsultation(req : Requete_Update_Consultation){
+        val consult = withContext(Dispatchers.IO){contacteServeur(req)}
+
+        (consult as? Reponse_Update_Consultation)
             ?.done?.let { done ->
                 if(done){
                     messageToastPrivate.value = "consultation supprimée"

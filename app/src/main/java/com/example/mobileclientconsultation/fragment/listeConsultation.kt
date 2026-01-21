@@ -11,6 +11,7 @@ import android.widget.Toast
 
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.mobileclientconsultation.R
 import com.example.mobileclientconsultation.ViewModel.ViewModelHome
 import com.example.mobileclientconsultation.adapters.ListeConsultationAdapter
@@ -58,11 +59,12 @@ class listeConsultation : Fragment() {
                 }
             },
             onUpdate = {
-                    consultation ->
-                val req =
-                    Requete_Delete_Consultation(consultation!!.id)
-                viewLifecycleOwner.lifecycleScope.launch {
-                    viewModel.DeleteConsultation(req)
+                consultation -> viewModel.setCurrentConsult(consultation!!)
+                if(consultation.patient == null || consultation.patient!!.id == null){
+                    findNavController().navigate(R.id.action_mainFragment_to_updateConsultationPatient)
+                }
+                else{
+                    findNavController().navigate(R.id.action_mainFragment_to_updateConsultationDate)
                 }
 
             })
