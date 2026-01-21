@@ -10,13 +10,16 @@ import com.example.mobileclientconsultation.entity.kConsultation
 import com.example.mobileclientconsultation.entity.kPatient
 import com.example.mobileclientconsultation.mapper.toKotlin
 import com.example.mobileclientconsultation.network.networkConnection.contacteServeur
+import hepl.faad.Bibliotheque.Reponse_Add_Consultation
 import hepl.faad.Bibliotheque.Reponse_Add_Patient
 import hepl.faad.Bibliotheque.Reponse_All_Patient
 import hepl.faad.Bibliotheque.Reponse_Delete_Consultation
 import hepl.faad.Bibliotheque.Reponse_Search_Consultations
+import hepl.faad.Bibliotheque.Requete_Add_Consultation
 import hepl.faad.Bibliotheque.Requete_Add_Patient
 import hepl.faad.Bibliotheque.Requete_All_Patient
 import hepl.faad.Bibliotheque.Requete_Delete_Consultation
+import hepl.faad.Bibliotheque.Requete_Logout
 import hepl.faad.Bibliotheque.Requete_Search_Consultations
 import kotlinx.coroutines.Dispatchers
 
@@ -64,6 +67,21 @@ class ViewModelHome : ViewModel(){
             }
     }
 
+    suspend fun addConsult(req : Requete_Add_Consultation){
+        val consult = withContext(Dispatchers.IO){contacteServeur(req)}
+
+        (consult as? Reponse_Add_Consultation)
+            ?.done?.let { done ->
+                if(done){
+                    messageToastPrivate.value = "consultation supprimée"
+
+                }
+                else{
+                    messageToastPrivate.value = "erreur de suppression"
+                }
+            }
+    }
+
 
      suspend fun getConsultations(req : Requete_Search_Consultations){
 
@@ -76,6 +94,10 @@ class ViewModelHome : ViewModel(){
 
 
                 }
+    }
+
+    suspend fun logout(req : Requete_Logout){
+        withContext(Dispatchers.IO){contacteServeur(req)}
     }
     suspend fun DeleteConsultation(req : Requete_Delete_Consultation){
 

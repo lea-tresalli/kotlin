@@ -53,14 +53,14 @@
         android:id="@+id/textView8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nombre de consultation"
+        android:text="@string/nbrConsult"
         android:labelFor="@id/nombreconsecutive"/>
 
     <EditText
         android:id="@+id/nombreconsecutive"
         android:layout_width="match_parent"
         android:layout_height="79dp"
-        android:autofillHints="nombre de consultation"
+        android:autofillHints="@string/nbrConsult"
         android:ems="10"
         android:inputType="number"
          />
